@@ -1,0 +1,3 @@
+if ParamDisplayValue(?pMonthBegin?) is null then ([Month Begin Date] between _add_months (current_date,-5) and 
+_add_months (current_date,-1)) else ([Month Begin Date] between _add_months (?pMonthBegin?,-5) and ?pMonthBegin?)
+end
