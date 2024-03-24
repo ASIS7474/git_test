@@ -1,3 +1,2 @@
-# this is my first git 
-# this is second 
-# this is thrird line in main branch
+
+=Sum(([Downtime Detail].[Downtime Minutes] ForEach ([Downtime Start];[Duration Value])) Where ([Downtime Type Code] = "SCHEDULED"))
