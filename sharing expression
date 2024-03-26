@@ -1,1 +1,1 @@
-=If([Number of Payments]=0;0;[Number of Payments]/(([Number of Payments] In ([Industry])) In Report))
+=Sum(([Downtime Detail].[Downtime Minutes] ForEach ([Downtime Start];[Duration Value])) Where ([Downtime Type Code] = "SCHEDULED"))
