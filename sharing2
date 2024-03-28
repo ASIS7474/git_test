@@ -1,0 +1,1 @@
+sum(  case    when [Downtime Type Code] = 'SCHEDULED' then      (        accumulate(          [Downtime Minutes],          [Downtime Start], [Duration Value],          [Downtime Minutes]        )      )    else 0  end)
