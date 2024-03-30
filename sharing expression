@@ -1,30 +1,24 @@
-Udf_end_month
-="End Month: " + If(IsError(FormatDate(ToDate(UserResponse("Select End Month");"");"MM/dd/yyyy"));"";FormatDate(ToDate(UserResponse("Select End Month");"");"MM/dd/yyyy"))
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Next/Submit Button Example</title>
+</head>
+<body>
 
-udf_Header
-="Average Response Time (in seconds)"
+<div id="Next">Message will appear here</div>
+<button id="actionBtn">Next</button>
 
-Udf_Start Month
-="Start Month: " + If(IsError(FormatDate(ToDate(UserResponse("Select Start Month");"");"MM/dd/yyyy"));"";FormatDate(ToDate(UserResponse("Select Start Month");"");"MM/dd/yyyy"))
-
-Udf_Avg Response Time
-=Average([Average Response Time])
-
-Udf_Avg Response Time <0
-=If Average([Average Response Time]) <=0 Then "<0" Else If IsNull(Average([Average Response Time])) Then "" Else FormatNumber((Sum([Average Response Time]))/(Count([Response Metric ID]));"#.000000000")
-
-Udf_Avg Response Time <1
-=If [Average Response Time - Rounded] <=1 Then "<1" Else If IsNull([Average Response Time - Rounded]) Then "" Else FormatNumber([Average Response Time - Rounded];"#.00")
-
-Udf_Minutes Available
-=[Downtime].[Minutes in Month] - ([Udf_Scheduled Downtime] + [Udf_Unscheduled Downtime])
-
-Udf_Scheduled Downtime
-=Sum(([Downtime Detail].[Downtime Minutes] ForEach ([Downtime Start];[Duration Value])) Where ([Downtime Type Code] = "SCHEDULED"))
-
-Udf_Unscheduled Downtime
-=Sum(([Downtime Detail].[Downtime Minutes] ForEach ([Downtime Start];[Duration Value])) Where ([Downtime Type Code] = "UNSCHEDULED"))
-
-Udf_Uptime %
-=If IsError(([Udf_Minutes Available]+[Udf_Scheduled Downtime])/[Downtime].[Minutes in Month]) Then 0 Else ([Udf_Minutes Available]+[Udf_Scheduled Downtime])/[Downtime].[Minutes in Month]
-
+<script>
+    function handleNextButtonClick() {
+    // Submit prompt values
+    cognos.Report.getReport().prompt.getControlByName('MyPrompt').sendRequest();
+    // Navigate to the next page
+    cognos.Report.getReport().sendRequest(cognos.Report.Action.NEXT);
+    cognos.Report.getReport().sendRequest(cognos.Report.Action.handleRepromptButtonClick);
+}
+ 
+// Attach event handlers to the "Next" and "Reprompt" buttons
+document.getElementById('nextButton').addEventListener('click', handleNextButtonClick);
+</script>
+</body>
+</html>
