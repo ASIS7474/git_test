@@ -1,1 +1,18 @@
-If ([Average Response Time - Rounded]) <= 1 Then    '<1>'Else    If IsNull([Average Response Time - Rounded]) Then        ''    Else        ToString(Decimal([Average Response Time - Rounded]), '#.00')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Next/Submit Button Example</title>
+</head>
+<body>
+
+<div id="Next">Message will appear here</div>
+<button onclick="nextAndReprompt()">Next</button>
+
+<script>
+      function nextAndReprompt() {
+        // Trigger reprompt
+        cognos.Report.getReport()._promptPage._activePrompt.sendRequest('prompt');
+}
+</script>
+</body>
+</html>
