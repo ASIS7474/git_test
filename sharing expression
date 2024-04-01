@@ -1,6 +1,2 @@
-CASE 
-    WHEN ([Average Response Time - Rounded] <= 1) THEN '<1'
-    WHEN (IsNull([Average Response Time - Rounded])) THEN ''
-    ELSE TO_CHAR([Average Response Time - Rounded], '0.00')
-END
-
+XQE-V5-0017 V5 syntax error found for data item 'Udf_Avg Response Time <1' of query 'Web Response', invalid token "(" found after "CASE 
+    WHEN ([Average Response Time - Rounded] <= 1) THEN ".
