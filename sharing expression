@@ -1,7 +1,6 @@
-IF ([Average Response Time - Rounded] <= 1) THEN
-    '<1'
-ELSEIF (IsNull([Average Response Time - Rounded])) THEN
-    ''
-ELSE
-    CAST([Average Response Time - Rounded], 'DECIMAL(10,2)')
+CASE 
+    WHEN ([Average Response Time - Rounded] <= 1) THEN '<1'
+    WHEN (IsNull([Average Response Time - Rounded])) THEN ''
+    ELSE TO_CHAR([Average Response Time - Rounded], '0.00')
 END
+
