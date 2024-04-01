@@ -1,1 +1,7 @@
-=If [Average Response Time - Rounded] <=1 Then "<1" Else If IsNull([Average Response Time - Rounded]) Then "" Else FormatNumber([Average Response Time - Rounded];"#.00")
+IF ([Average Response Time - Rounded] <= 1) THEN
+    '<1'
+ELSEIF (IsNull([Average Response Time - Rounded])) THEN
+    ''
+ELSE
+    CAST([Average Response Time - Rounded], 'DECIMAL(10,2)')
+END
