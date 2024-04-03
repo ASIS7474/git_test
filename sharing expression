@@ -1,4 +1,1 @@
-=([ONFN_KPI].[Created Application Count] 
-Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[ONFN_KPI].[Created Application Count] 
-Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[ONFN_KPI].[Created Application Count] 
-Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+=([ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
