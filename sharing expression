@@ -1,6 +1,10 @@
 ((total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (format([ONFN_KPI].[Month Year], 'Mmm-yy') = ?Udf_This Month?)) +
+    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, current_date) and
+          extract(month, [ONFN_KPI].[Month Year]) = extract(month, current_date)))) +
 (total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (format([ONFN_KPI].[Month Year], 'Mmm-yy') = ?Udf_Previous Month?)) +
+    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, add_months(current_date, -1)) and
+          extract(month, [ONFN_KPI].[Month Year]) = extract(month, add_months(current_date, -1))))) +
 (total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (format([ONFN_KPI].[Month Year], 'Mmm-yy') = ?Udf_Previous 2 Months?)))) / 3
+    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, add_months(current_date, -2)) and
+          extract(month, [ONFN_KPI].[Month Year]) = extract(month, add_months(current_date, -2)))))) / 3
+
