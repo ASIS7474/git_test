@@ -1,18 +1,104 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Next/Submit Button Example</title>
-</head>
-<body>
+=FormatDate(RelativeDate(ToDate(UserResponse("Select Reporting Month Begin Date");"");-12;MonthPeriod);"Mmm-yy")
 
-<div id="Next">Message will appear here</div>
-<button onclick="nextAndReprompt()">Next</button>
+FormatDate(RelativeDate(ToDate(UserResponse("Select Reporting Month Begin Date");"");-2;MonthPeriod);"Mmm-yy")
 
-<script>
-      function nextAndReprompt() {
-        // Trigger reprompt
-        cognos.Report.getReport()._promptPage._activePrompt.sendRequest('prompt');
-}
-</script>
-</body>
-</html>
+=FormatDate(RelativeDate(ToDate(UserResponse("Select Reporting Month Begin Date");"");-1;MonthPeriod);"Mmm-yy")
+
+=FormatDate(ToDate(UserResponse("Select Reporting Month Begin Date");"");"Mmmm yyyy")
+
+=([ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=[ONFN_KPI].[Created Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=([Udf_Declined Application Rate] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_This Month]) + [Udf_Declined Application Rate] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_Previous Month])+ [Udf_Declined Application Rate] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])) / 3
+
+=([Udf_Declined Application Count] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_This Month]) + [Udf_Declined Application Count] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_Previous Month])+ [Udf_Declined Application Count] Where (FormatDate([Declined].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])) / 3
+
+=(([ON_FN_TN_KPI].[Account Verification Attempted Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+
+([ON_FN_TN_KPI].[Account Verification Attempted Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+
+([ON_FN_TN_KPI].[Account Verification Attempted Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=[ON_FN_TN_KPI].[Account Verification Attempted Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=[ON_FN_TN_KPI].[Account Verification Attempted Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=[ON_FN_TN_KPI].[Account Verification Attempted Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=(([ON_FN_TN_KPI].[Account Sucessfully Verified Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+
+([ON_FN_TN_KPI].[Account Sucessfully Verified Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+
+([ON_FN_TN_KPI].[Account Sucessfully Verified Count]) Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=[ON_FN_TN_KPI].[Account Sucessfully Verified Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=[ON_FN_TN_KPI].[Account Sucessfully Verified Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=[ON_FN_TN_KPI].[Account Sucessfully Verified Count] Where (FormatDate([ON_FN_TN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=([Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=((([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count])) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=If(IsError([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]);0;[Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count])
+
+=If(IsError([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]);0;[Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count])
+
+=If(IsError([ONFN_KPI].[ACH Funded Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") = [Udf_This Month])/[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") = [Udf_This Month]));0;[ONFN_KPI].[ACH Funded Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") = [Udf_This Month])/[Udf_Successfully Funded Appln Volume] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") = [Udf_This Month]))
+
+=([ONFN_KPI].[Created Applicant Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[ONFN_KPI].[Created Applicant Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[ONFN_KPI].[Created Applicant Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=(([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+    +
+  ([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month]) 
+    +
+([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]) 
+  )/3
+  
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=([ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+[ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+[ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=[ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=[ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=[ONFN_KPI].[Submitted Application Count] Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=(([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 12 Months])
+
+=([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])
+
+=([ONFN_KPI].[Submitted Application Count]/[ONFN_KPI].[Created Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+
+=([ONFN_KPI].[ACH Funded Count]+[ONFN_KPI].[Card Funded Count]+[ONFN_KPI].[Check Funded Count])
+
+=((([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count])) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])+([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month])+([Udf_Successfully Funded Appln Volume]/[ONFN_KPI].[Submitted Application Count]) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]))/3
+
+=(
+  (Sum([Udf_Successfully Funded Appln Volume])/Sum([ONFN_KPI].[Created Application Count])) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_This Month])
+    +
+  (Sum([Udf_Successfully Funded Appln Volume])/Sum([ONFN_KPI].[Created Application Count])) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous Month]) 
+    +
+  (Sum([Udf_Successfully Funded Appln Volume])/Sum([ONFN_KPI].[Created Application Count])) Where (FormatDate([ONFN_KPI].[Month Year];"Mmm-yy") =[Udf_Previous 2 Months]) 
+  )/3
