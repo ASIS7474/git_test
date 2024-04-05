@@ -1,10 +1,11 @@
-((total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, current_date) and
-          extract(month, [ONFN_KPI].[Month Year]) = extract(month, current_date)))) +
-(total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, add_months(current_date, -1)) and
-          extract(month, [ONFN_KPI].[Month Year]) = extract(month, add_months(current_date, -1))))) +
-(total([ONFN_KPI].[Created Application Count] for [ONFN_KPI].[Month Year] 
-    when (extract(year, [ONFN_KPI].[Month Year]) = extract(year, add_months(current_date, -2)) and
-          extract(month, [ONFN_KPI].[Month Year]) = extract(month, add_months(current_date, -2)))))) / 3
+CASE
+    WHEN extract(month, current_date) = 1 THEN 'December'
+    ELSE 
+        substring(
+            'JanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovember', 
+            (extract(month, add_months(current_date, -1)) - 1) * 9 + 1, 
+            9
+        )
+END || ' ' || extract(year, add_months(current_date, -1))
+
 
