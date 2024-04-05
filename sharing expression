@@ -12,3 +12,6 @@ case
     when extract(month, add_months(current_date, -1)) = 11 then 'November'
     else 'December'
 end || ' ' || extract(year, add_months(current_date, -1))
+
+
+to_char(_add_months({sysdate},-1),'MM')
