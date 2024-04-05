@@ -9,3 +9,7 @@ CASE
 END || ' ' || extract(year, add_months(current_date, -1))
 
 
+cast(
+    add_months(current_date, -1) as char(7)
+)
+
