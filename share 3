@@ -1,0 +1,19 @@
+substring([Date], 6, 2) || '-' || right([Date], 2)
+
+
+case 
+    when substring([Date], 6, 2) = '01' then 'Jan'
+    when substring([Date], 6, 2) = '02' then 'Feb'
+    when substring([Date], 6, 2) = '03' then 'Mar'
+    when substring([Date], 6, 2) = '04' then 'Apr'
+    when substring([Date], 6, 2) = '05' then 'May'
+    when substring([Date], 6, 2) = '06' then 'Jun'
+    when substring([Date], 6, 2) = '07' then 'Jul'
+    when substring([Date], 6, 2) = '08' then 'Aug'
+    when substring([Date], 6, 2) = '09' then 'Sep'
+    when substring([Date], 6, 2) = '10' then 'Oct'
+    when substring([Date], 6, 2) = '11' then 'Nov'
+    when substring([Date], 6, 2) = '12' then 'Dec'
+end || '-' || right(substring([Date], 1, 4), 2)
+
+
