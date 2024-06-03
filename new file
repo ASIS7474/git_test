@@ -1,3 +1,7 @@
 Percentage([Summary].[Transaction Count - BOFA];Col)
 
+=If IsNull(Previous([Transaction Count])) Then 0 
+ElseIf Previous([Transaction Count])= 0 Then 0
+Else ([Transaction Count]-Previous([Transaction Count]))/Previous([Transaction Count])
+
 =If IsError([Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]) Then 0 Else [Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]
