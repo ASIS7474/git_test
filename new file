@@ -11,3 +11,5 @@ case
 end
 
 =If IsError([Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]) Then 0 Else [Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]
+
+=LastDayOfMonth(ToDate(UserResponse("Select Reporting Month Begin Date");""))
