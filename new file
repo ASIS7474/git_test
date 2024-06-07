@@ -13,3 +13,12 @@ end
 =If IsError([Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]) Then 0 Else [Status].[Transaction Amount - BOFA]/[Status].[Transaction Count - BOFA]
 
 =LastDayOfMonth(ToDate(UserResponse("Select Reporting Month Begin Date");""))
+
+
+=If(IsNull(([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) Where (FormatDate(
+[Month Year TN];"Mmm-yy") = [Udf_This Month])) = 1) Then 0 Else ([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) 
+Where (FormatDate([Month Year TN];"Mmm-yy") = [Udf_This Month])
+
+=If(IsNull(([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) Where ([Date TN] Between([Udf_Last 12 Months Start Date];[Udf_Last 12 Months End Date]))) = 1) Then 0 Else 
+([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) 
+Where ([Date TN] Between([Udf_Last 12 Months Start Date];[Udf_Last 12 Months End Date]))
