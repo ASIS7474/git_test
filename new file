@@ -1,4 +1,8 @@
-to_char(_last_of_month (_add_months(?pMonth_Begin_Date?,-12)),'mm/dd/yyyy')
+If(IsNull(([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA])
+Where (FormatDate([Month Year TN];"Mmm-yy") = [Udf_Previous Month])) = 1) Then 0 Else
+(((([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) Where (FormatDate([Month Year TN];"Mmm-yy") = [Udf_This Month])) 
+- (([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) Where (FormatDate([Month Year TN];"Mmm-yy") = [Udf_Previous Month])))
+/(([TransferNow Activity].[TN Transfer Count]+[TransferNow Activity - BOFA].[TN Transfer Count - BOFA]) Where (FormatDate([Month Year TN];"Mmm-yy") = [Udf_Previous Month])))
 
 Percentage([Summary].[Transaction Count - BOFA];Col)
 
