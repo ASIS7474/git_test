@@ -1,3 +1,5 @@
+to_char(_last_of_month (_add_months(?pMonth_Begin_Date?,-12)),'mm/dd/yyyy')
+
 Percentage([Summary].[Transaction Count - BOFA];Col)
 
 =If IsNull(Previous([Transaction Count])) Then 0 
