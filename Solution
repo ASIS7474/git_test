@@ -1,0 +1,24 @@
+case 
+  when coalesce(
+         sum(
+           [TransferNow Activity].[TN Transfer Count] + [TransferNow Activity - BOFA].[TN Transfer Count - BOFA]
+         ) for [Month Year TN] = ?Udf_Previous_Month?
+       , 0) = 0 
+  then 0 
+  else 
+    (
+      sum(
+        [TransferNow Activity].[TN Transfer Count] + [TransferNow Activity - BOFA].[TN Transfer Count - BOFA]
+      ) for [Month Year TN] = ?Udf_This_Month?
+      -
+      sum(
+        [TransferNow Activity].[TN Transfer Count] + [TransferNow Activity - BOFA].[TN Transfer Count - BOFA]
+      ) for [Month Year TN] = ?Udf_Previous_Month?
+    )
+    /
+    coalesce(
+      sum(
+        [TransferNow Activity].[TN Transfer Count] + [TransferNow Activity - BOFA].[TN Transfer Count - BOFA]
+      ) for [Month Year TN] = ?Udf_Previous_Month?
+    , 1)
+end
