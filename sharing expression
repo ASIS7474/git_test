@@ -1,17 +1,4 @@
-case
-    when extract(month, add_months(current_date, -1)) = 1 then 'January'
-    when extract(month, add_months(current_date, -1)) = 2 then 'February'
-    when extract(month, add_months(current_date, -1)) = 3 then 'March'
-    when extract(month, add_months(current_date, -1)) = 4 then 'April'
-    when extract(month, add_months(current_date, -1)) = 5 then 'May'
-    when extract(month, add_months(current_date, -1)) = 6 then 'June'
-    when extract(month, add_months(current_date, -1)) = 7 then 'July'
-    when extract(month, add_months(current_date, -1)) = 8 then 'August'
-    when extract(month, add_months(current_date, -1)) = 9 then 'September'
-    when extract(month, add_months(current_date, -1)) = 10 then 'October'
-    when extract(month, add_months(current_date, -1)) = 11 then 'November'
-    else 'December'
-end || ' ' || extract(year, add_months(current_date, -1))
+="For " +FormatDate(ToDate(Substr( Trim( [Peoplesoft Incident ID]) ; 1; 2 ) + "/" + Substr( Trim( [Peoplesoft Incident ID]) ; 3; 2 )+ "/20" + Substr( Trim( [Peoplesoft Incident ID]) ; 5; 2 );"MM/dd/yyyy");"Mmmm dd, yyyy")
 
 
-to_char(_add_months({sysdate},-1),'MM')
+=Substr(Trim([Peoplesoft Incident ID]);1;4) + Substr(Trim([Peoplesoft Incident ID]);5;2)+Substr(Trim([Peoplesoft Incident ID]);7;2)
