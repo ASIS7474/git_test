@@ -1,4 +1,22 @@
-="For " +FormatDate(ToDate(Substr( Trim( [Peoplesoft Incident ID]) ; 1; 2 ) + "/" + Substr( Trim( [Peoplesoft Incident ID]) ; 3; 2 )+ "/20" + Substr( Trim( [Peoplesoft Incident ID]) ; 5; 2 );"MM/dd/yyyy");"Mmmm dd, yyyy")
+Start Date
+if totext({?psdtRunDate}, "MM/dd/yyyy") = "12/31/9999" then
+	totext(dateadd("d",+1,maximum(LastFullWeek)),"ddd MM/dd/yy")
+else
+	totext(dateadd("d",-(DayOfWeek({?psdtRunDate})-1),{?psdtRunDate}),"ddd MM/dd/yy")
+	
+End Date
+if totext({?psdtRunDate}, "MM/dd/yyyy") = "12/31/9999" then
+	totext(dateadd("d",+1,maximum(LastFullWeek)),"ddd MM/dd/yy")
+else
+	totext(dateadd("d",-(DayOfWeek({?psdtRunDate})-1),{?psdtRunDate}),"ddd MM/dd/yy")
 
-
-=Substr(Trim([Peoplesoft Incident ID]);1;4) + Substr(Trim([Peoplesoft Incident ID]);5;2)+Substr(Trim([Peoplesoft Incident ID]);7;2)
+begin date 3
+if not isnull({EDW_Client_Connect.Payment\Daily Processed Payments\Processed Payment Due Date}) then(
+	firstday:=date(year(minimum({EDW_Client_Connect.Payment\Daily Processed Payments\Processed Payment Due Date})),month(minimum({EDW_Client_Connect.Payment\Daily Processed Payments\Processed Payment Due Date})),3);
+	firstdate:=minimum({EDW_Client_Connect.Payment\Daily Processed Payments\Processed Payment Due Date});
+	
+	if firstdate - firstday > 0 then(
+		output:=output + totext(firstday, "M/d/yyyy");
+	);
+	output;
+)
