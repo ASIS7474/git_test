@@ -3,6 +3,13 @@ if totext({?psdtRunDate}, "MM/dd/yyyy") = "12/31/9999" then
 	totext(dateadd("d",+1,maximum(LastFullWeek)),"ddd MM/dd/yy")
 else
 	totext(dateadd("d",-(DayOfWeek({?psdtRunDate})-1),{?psdtRunDate}),"ddd MM/dd/yy")
+
+solution
+if (to_char([?psdtRunDate], 'MM/dd/yyyy') = '12/31/9999') then
+    to_char(_add_days(_add_days(last_day(_add_months(current_date, -1)), -6), 1), 'DY MM/dd/yy')
+else
+    to_char(_add_days([?psdtRunDate], -(_day_of_week([?psdtRunDate]) - 1)), 'DY MM/dd/yy')
+
 	
 End Date
 if totext({?psdtRunDate}, "MM/dd/yyyy") = "12/31/9999" then
