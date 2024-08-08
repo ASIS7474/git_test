@@ -1,0 +1,144 @@
+SELECT
+    'Fiserv Confidential' AS "Confidential", 
+    'Fiserv' AS "Fiserv_Logo", 
+    "FS2"."Sponsor_ID" AS "Sponsor_ID", 
+    "FS2"."Report_ID" AS "Report_ID", 
+    "FS2"."Sponsor" AS "Sponsor", 
+    "FS3"."Media_Type" AS "Media_Type", 
+    "FS2"."PeopleSoft_Case_ID" AS "PeopleSoft_Case_ID", 
+    "FS2"."Peoplesoft_Incident_ID" AS "Peoplesoft_Incident_ID", 
+    "FS2"."Subscriber_ID" AS "Subscriber_ID", 
+    "FS3"."Consumer_Name" AS "Consumer_Name", 
+    "FS3"."Payment_Dollar_Amount" AS "Payment_Dollar_Amount", 
+    "FS3"."Payment_Due_Date" AS "Payment_Due_Date", 
+    "FS3"."Funding_Account_Number" AS "Funding_Account_Number", 
+    "FS2"."Business_Name" AS "Business_Name", 
+    "FS3"."Payment_Remit_Name" AS "Payment_Remit_Name", 
+    '© ' || EXTRACT(YEAR FROM CURRENT_DATE) || ' Fiserv, Inc' AS "Fiserv_Copyright"
+FROM
+    (
+    SELECT
+        "FS2_inner"."Sponsor_ID" AS "Sponsor_ID", 
+        "FS2_inner"."Report_ID" AS "Report_ID", 
+        "FS2_inner"."Sponsor" AS "Sponsor", 
+        "FS2_inner"."PeopleSoft_Case_ID" AS "PeopleSoft_Case_ID", 
+        "FS2_inner"."Peoplesoft_Incident_ID" AS "Peoplesoft_Incident_ID", 
+        "FS2_inner"."Subscriber_ID" AS "Subscriber_ID", 
+        "FS2_inner"."Business_Name" AS "Business_Name", 
+        SUM(1)
+            OVER(
+                ORDER BY
+                    "FS2_inner"."Sponsor_ID" ASC, 
+                    "FS2_inner"."Report_ID" ASC, 
+                    "FS2_inner"."Sponsor" ASC, 
+                    "FS2_inner"."PeopleSoft_Case_ID" ASC, 
+                    "FS2_inner"."Peoplesoft_Incident_ID" ASC, 
+                    "FS2_inner"."Subscriber_ID" ASC, 
+                    "FS2_inner"."Business_Name" ASC
+             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            ) AS "sc1"
+    FROM
+        (
+        SELECT
+            "D1"."C0" AS "Sponsor_ID", 
+            "D1"."C1" AS "Report_ID", 
+            "D1"."C2" AS "Sponsor", 
+            "D1"."C3" AS "PeopleSoft_Case_ID", 
+            "D1"."C4" AS "Peoplesoft_Incident_ID", 
+            "D1"."C5" AS "Subscriber_ID", 
+            "D1"."C6" AS "Business_Name"
+        FROM
+            (
+            SELECT
+                rtrim("SPSR_DIM_PAM"."LGCY_SPSR_ID") AS "C0", 
+                "VW_RPT"."LGCY_RPT_ID" AS "C1", 
+                "SPSR_DIM_PAM"."BSNS_NM" AS "C2", 
+                "VW_CC_CASE"."PS_CASE_ID" AS "C3", 
+                "VW_INCDNT_EVNT"."PS_INCDNT_ID" AS "C4", 
+                "SBSPN_DW"."LGCY_SBSR_ID" AS "C5", 
+                "SBSPN_PERS"."BSNS_NM" AS "C6"
+            FROM
+                "PM_DEV_DWS"."DW"."VW_SBSPN" "SBSPN_DW"
+                    INNER JOIN "PM_DEV_DWS"."DW"."VW_PERS" "SBSPN_PERS"
+                    ON "SBSPN_DW"."SBSR_PERS_INDV_ID" = "SBSPN_PERS"."PERS_INDV_ID"
+                        INNER JOIN "PM_DEV_DWS"."DW"."VW_CC_CASE" "VW_CC_CASE"
+                        ON "VW_CC_CASE"."SBSPN_ID" = "SBSPN_DW"."SBSPN_ID"
+                            INNER JOIN "PM_DEV_DWS"."COM"."VW_SPSR_DIM" "SPSR_DIM_PAM"
+                            ON "VW_CC_CASE"."SPSR_ORG_INDV_ID" = "SPSR_DIM_PAM"."SPSR_ORG_ID"
+                                INNER JOIN "PM_DEV_DWS"."DW"."VW_INCDNT_EVNT" "VW_INCDNT_EVNT"
+                                ON "VW_CC_CASE"."INCDNT_EVNT_ID" = "VW_INCDNT_EVNT"."INCDNT_EVNT_ID"
+                                    INNER JOIN "PM_DEV_DWS"."DW"."VW_ORG_RPT" "VW_ORG_RPT"
+                                    ON "SPSR_DIM_PAM"."SPSR_ORG_ID" = "VW_ORG_RPT"."ORG_INDV_ID"
+                                        INNER JOIN "PM_DEV_DWS"."DW"."VW_RPT" "VW_RPT"
+                                        ON "VW_ORG_RPT"."RPT_ID" = "VW_RPT"."RPT_ID" 
+            WHERE 
+                substr(rtrim(ltrim("VW_INCDNT_EVNT"."PS_INCDNT_ID")), 1, 4) || '20' || substr(rtrim(ltrim("VW_INCDNT_EVNT"."PS_INCDNT_ID")), 5, 2) = to_char(DATEADD(DAYS, TRUNC(-2), CAST(:psdtRunDate: AS DATE)), 'MMDDYYYY')
+            ) "D1" 
+        GROUP BY 
+            "D1"."C0", 
+            "D1"."C1", 
+            "D1"."C2", 
+            "D1"."C3", 
+            "D1"."C4", 
+            "D1"."C5", 
+            "D1"."C6"
+        ) "FS2_inner"
+    ) "FS2"
+        FULL OUTER JOIN 
+        (
+        SELECT
+            "FS3_inner"."Media_Type" AS "Media_Type", 
+            "FS3_inner"."Consumer_Name" AS "Consumer_Name", 
+            "FS3_inner"."Payment_Dollar_Amount" AS "Payment_Dollar_Amount", 
+            "FS3_inner"."Payment_Due_Date" AS "Payment_Due_Date", 
+            "FS3_inner"."Funding_Account_Number" AS "Funding_Account_Number", 
+            "FS3_inner"."Payment_Remit_Name" AS "Payment_Remit_Name", 
+            SUM(1)
+                OVER(
+                    ORDER BY
+                        "FS3_inner"."Media_Type" ASC, 
+                        "FS3_inner"."Consumer_Name" ASC, 
+                        "FS3_inner"."Payment_Due_Date" ASC, 
+                        "FS3_inner"."Funding_Account_Number" ASC, 
+                        "FS3_inner"."Payment_Remit_Name" ASC
+                 ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                ) AS "sc1"
+        FROM
+            (
+            SELECT
+                "D1"."C0" AS "Media_Type", 
+                "D1"."C1" AS "Consumer_Name", 
+                SUM("D1"."C5") AS "Payment_Dollar_Amount", 
+                "D1"."C2" AS "Payment_Due_Date", 
+                "D1"."C3" AS "Funding_Account_Number", 
+                "D1"."C4" AS "Payment_Remit_Name"
+            FROM
+                (
+                SELECT
+                    "VW_MEDIA_TYPE_DIM"."MEDIA_TYPE_NM" AS "C0", 
+                    "VW_SBSPNLESS_PYMT"."CSMR_NM" AS "C1", 
+                    "VW_SBSPNLESS_PYMT"."PYMT_DUE_DT" AS "C2", 
+                    CASE 
+                        WHEN 
+                            "VW_SBSPNLESS_PYMT"."FNDG_ACCT_NBR_LAST4_TXT" IS NULL OR
+                            TRIM("VW_SBSPNLESS_PYMT"."FNDG_ACCT_NBR_LAST4_TXT") = ''
+                            THEN
+                                ''
+                        ELSE '*' || TRIM("VW_SBSPNLESS_PYMT"."FNDG_ACCT_NBR_LAST4_TXT")
+                    END AS "C3", 
+                    "VW_SBSPNLESS_PYMT"."PYMT_REMIT_NM" AS "C4", 
+                    "VW_SBSPNLESS_PYMT"."PYMT_DLR_AMT" AS "C5"
+                FROM
+                    "PM_DEV_DWS"."DW"."VW_SBSPNLESS_PYMT" "VW_SBSPNLESS_PYMT"
+                        INNER JOIN "PM_DEV_DWS"."COM"."VW_MEDIA_TYPE_DIM" "VW_MEDIA_TYPE_DIM"
+                        ON "VW_SBSPNLESS_PYMT"."MEDIA_TYPE_ID" = "VW_MEDIA_TYPE_DIM"."MEDIA_TYPE_ID"
+                ) "D1" 
+            GROUP BY 
+                "D1"."C0", 
+                "D1"."C1", 
+                "D1"."C2", 
+                "D1"."C3", 
+                "D1"."C4"
+            ) "FS3_inner"
+        ) "FS3"
+        ON "FS2"."sc1" = "FS3"."sc1"
